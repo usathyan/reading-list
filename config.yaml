@@ -1,0 +1,196 @@
+# GitHub Reading List Generator Configuration
+
+# GitHub API Configuration
+github:
+  # Your GitHub username (required)
+  username: "your-username"
+  
+  # GitHub personal access token (set via environment variable GITHUB_TOKEN)
+  # Generate at: https://github.com/settings/tokens
+  # Required scopes: public_repo (for accessing starred repositories)
+  token: null  # Use environment variable instead
+  
+  # API settings
+  base_url: "https://api.github.com"
+  rate_limit: 5000  # GitHub API rate limit per hour
+  timeout: 30  # Request timeout in seconds
+  retry_attempts: 3
+  retry_delay: 1  # Initial retry delay in seconds
+  
+  # Cache settings
+  cache_ttl: 3600  # Cache time-to-live in seconds (1 hour)
+  enable_cache: true
+
+# AI Analysis Configuration
+ai:
+  # AI provider: "openai" or "anthropic" or "none" (disables AI features)
+  provider: "openai"
+  
+  # OpenAI Configuration
+  openai:
+    # API key (set via environment variable OPENAI_API_KEY)
+    api_key: null
+    model: "gpt-4"
+    max_tokens: 1000
+    temperature: 0.3  # Lower = more focused, higher = more creative
+    base_url: "https://api.openai.com/v1"
+    
+  # Anthropic Configuration
+  anthropic:
+    # API key (set via environment variable ANTHROPIC_API_KEY)  
+    api_key: null
+    model: "claude-3-sonnet-20240229"
+    max_tokens: 1000
+    temperature: 0.3
+    
+  # Analysis settings
+  enable_content_analysis: true  # Analyze README files
+  enable_categorization: true    # Auto-categorize repositories
+  enable_summarization: true     # Generate summaries
+  batch_size: 10  # Number of repositories to analyze in parallel
+
+# Visualization Configuration
+visualization:
+  # Theme: "light", "dark", or "auto"
+  theme: "dark"
+  
+  # Output formats to generate
+  formats: ["html", "png", "svg"]
+  
+  # Chart settings
+  interactive: true  # Enable interactive Plotly charts
+  width: 1200
+  height: 800
+  
+  # Timeline plot settings
+  timeline:
+    x_axis: "stars"      # "stars" or "created_date"
+    y_axis: "starred_date"  # "starred_date" or "updated_date"
+    color_by: "category"    # "category", "language", or "none"
+    size_by: "activity"     # "activity", "size", or "none"
+    show_trends: true
+    
+  # Category distribution settings
+  categories:
+    chart_type: "treemap"  # "pie", "bar", "treemap"
+    min_repos: 2  # Minimum repositories to show category
+    max_categories: 15  # Maximum categories to display
+
+# Output Configuration
+output:
+  # Output directory
+  data_dir: "data"
+  
+  # Export formats to generate
+  formats: ["json", "csv", "html", "markdown"]
+  
+  # README generation
+  readme:
+    template: "templates/README_template.md"
+    filename: "READING_LIST.md"
+    include_visualizations: true
+    include_stats: true
+    group_by_category: true
+    
+  # Export settings
+  export:
+    include_metadata: true
+    pretty_json: true
+    csv_delimiter: ","
+
+# Database Configuration
+database:
+  # SQLite database path
+  path: "data/reading_list.db"
+  
+  # Connection settings
+  timeout: 30
+  check_same_thread: false
+  
+  # Maintenance settings
+  vacuum_on_startup: false
+  backup_frequency: "weekly"  # "daily", "weekly", "monthly", or "never"
+
+# Logging Configuration
+logging:
+  # Log level: "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"
+  level: "INFO"
+  
+  # Log format
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  
+  # Log files
+  files:
+    application: "data/logs/application.log"
+    github_api: "data/logs/github_api.log"
+    ai_analysis: "data/logs/ai_analysis.log"
+    
+  # Log rotation
+  max_bytes: 10485760  # 10MB
+  backup_count: 5
+  
+  # Console output
+  console:
+    enabled: true
+    level: "INFO"
+
+# Performance Configuration  
+performance:
+  # Concurrency settings
+  max_concurrent_requests: 10
+  max_concurrent_analysis: 5
+  
+  # Memory management
+  batch_size: 100  # Repositories to process in each batch
+  cache_size: 1000  # Maximum cached items
+  
+  # Resource limits
+  max_memory_mb: 1024  # Maximum memory usage
+  request_delay: 0.1   # Delay between requests in seconds
+
+# Feature Flags
+features:
+  enable_ai_analysis: true
+  enable_visualizations: true  
+  enable_web_dashboard: false  # Future feature
+  enable_real_time_updates: false  # Future feature
+  enable_social_features: false   # Future feature
+
+# Categorization Rules
+categorization:
+  # Language-based categories
+  languages:
+    "Web Development": ["JavaScript", "TypeScript", "HTML", "CSS", "PHP", "Ruby"]
+    "Systems Programming": ["C", "C++", "Rust", "Go", "Zig"]
+    "Data Science": ["Python", "R", "Julia", "Scala"]
+    "Mobile Development": ["Swift", "Kotlin", "Dart", "Objective-C"]
+    "Functional Programming": ["Haskell", "Elixir", "Erlang", "OCaml", "F#"]
+    
+  # Topic-based categories  
+  topics:
+    "Machine Learning": ["machine-learning", "deep-learning", "neural-networks", "ai"]
+    "Web Development": ["web", "frontend", "backend", "fullstack", "api"]
+    "DevOps": ["docker", "kubernetes", "ci-cd", "deployment", "infrastructure"]
+    "Security": ["security", "cryptography", "penetration-testing", "vulnerability"]
+    "Database": ["database", "sql", "nosql", "orm", "migration"]
+    
+  # Custom rules (regex patterns)
+  custom_rules:
+    "CLI Tools": ["cli", "command-line", "terminal", "shell"]
+    "Testing": ["test", "testing", "unit-test", "integration-test"]
+    "Documentation": ["docs", "documentation", "wiki", "guide"]
+
+# Template Configuration
+templates:
+  # Template directory
+  directory: "templates"
+  
+  # Available templates
+  readme: "README_template.md"
+  html_report: "report_template.html"
+  
+  # Template variables
+  variables:
+    author: "Reading List Generator"
+    generated_date: "{{ now }}"
+    total_repositories: "{{ stats.total_repos }}" 
