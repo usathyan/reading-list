@@ -375,5 +375,10 @@ def status(ctx: click.Context) -> None:
     console.print(fs_table)
 
 
+def main():
+    """Entry point for the CLI."""
+    return cli()
+
+
 if __name__ == "__main__":
     cli() 
