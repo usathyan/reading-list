@@ -47,7 +47,6 @@ dependencies = [
     
     # Database
     "sqlalchemy>=2.0.0",
-    "sqlite3",  # Built-in but explicit
     
     # Configuration
     "pyyaml>=6.0",
